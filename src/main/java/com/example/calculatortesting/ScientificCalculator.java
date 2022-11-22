@@ -1,20 +1,19 @@
 package com.example.calculatortesting;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 public class ScientificCalculator {
 
     @RequestMapping(value = "/calculator", method = RequestMethod.GET)
-    public double calculator(@RequestBody Map<String, Object> payload) {
+    public  ResponseEntity<?> calculator(@RequestBody Map<String, Object> payload) {
         String ops = (String) payload.get("ops");
         double res = 0;
         double input1;
@@ -43,14 +42,17 @@ public class ScientificCalculator {
                 input1 = Double.parseDouble((String) payload.get("input1"));
                 res = Math.log10(input1);
                 break;
+
+            default:
+                return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
-        return res;
+        return ResponseEntity.ok(res);
     }
 
 
     @RequestMapping(value = "/areacalculator", method = RequestMethod.GET)
-    public double areaCalculator(@RequestBody Map<String, Object> payload) {
+    public ResponseEntity<?> areaCalculator(@RequestBody Map<String, Object> payload) {
         String shape = (String) payload.get("shape");
         double res = 0;
         double input1;
@@ -78,15 +80,18 @@ public class ScientificCalculator {
                 input2 = Double.parseDouble((String) payload.get("input2"));
                 res = 0.5 * input1 * input2;
                 break;
+
+            default:
+                return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
-        return res;
+        return ResponseEntity.ok(res);
 
     }
 
 
     @RequestMapping(value = "/unitConverterLength", method = RequestMethod.GET)
-    public double unitConverterlength(@RequestBody Map<String, Object> payload) {
+    public ResponseEntity<?> unitConverterlength(@RequestBody Map<String, Object> payload) {
         Set<String> setlength = new HashSet<String>(Arrays.asList("millimeter", "centimeter", "meter", "kilometer", "Inch", "Foot", "Yard", "mile"));
         String unit1 = (String) payload.get("unit1");
         String unit2 = (String) payload.get("unit2");
@@ -128,6 +133,8 @@ public class ScientificCalculator {
                     meter = input1 / 0.000621371;
                     break;
 
+                default:
+                    return new ResponseEntity(HttpStatus.BAD_REQUEST);
             }
 
             switch (unit2) {
@@ -162,15 +169,22 @@ public class ScientificCalculator {
                 case "mile":
                     res = meter * 0.000621371;
                     break;
+
+                default:
+                    return new ResponseEntity(HttpStatus.BAD_REQUEST);
             }
 
         }
+        else
+        {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
 
-        return res;
+        return ResponseEntity.ok(res);
     }
 
     @RequestMapping(value = "/unitConverterWeight", method = RequestMethod.GET)
-    public double unitConverterWeight(@RequestBody Map<String, Object> payload) {
+    public ResponseEntity<?> unitConverterWeight(@RequestBody Map<String, Object> payload) {
         Set<String> setWeight = new HashSet<String>(Arrays.asList("milli", "centi", "gram", "kilo", "metrictonnes", "pounds", "ounces", ""));
         String unit1 = (String) payload.get("unit1");
         String unit2 = (String) payload.get("unit2");
@@ -207,6 +221,9 @@ public class ScientificCalculator {
                 case "ounces":
                     kilo = input1 / 35.274;
                     break;
+
+                default:
+                    return new ResponseEntity(HttpStatus.BAD_REQUEST);
             }
 
             switch (unit2) {
@@ -237,13 +254,20 @@ public class ScientificCalculator {
                 case "ounces":
                     res = kilo / 35.274;
                     break;
+
+                default:
+                    return new ResponseEntity(HttpStatus.BAD_REQUEST);
             }
         }
-        return res;
+        else
+        {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+        return ResponseEntity.ok(res);
     }
 
     @RequestMapping(value = "/unitConverterArea", method = RequestMethod.GET)
-    public double unitConverterArea(@RequestBody Map<String, Object> payload) {
+    public ResponseEntity<?> unitConverterArea(@RequestBody Map<String, Object> payload) {
         Set<String> setArea = new HashSet<String>(Arrays.asList("millimeter", "centimeter", "meter", "kilometer", "acre", "hectare"));
         String unit1 = (String) payload.get("unit1");
         String unit2 = (String) payload.get("unit2");
@@ -277,6 +301,8 @@ public class ScientificCalculator {
                     meter = input1 * 10000;
                     break;
 
+                default:
+                    return new ResponseEntity(HttpStatus.BAD_REQUEST);
 
             }
 
@@ -305,10 +331,148 @@ public class ScientificCalculator {
                     res = meter / 10000;
                     break;
 
+                default:
+                    return new ResponseEntity(HttpStatus.BAD_REQUEST);
             }
-
+        }
+        else
+        {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
-        return res;
+        return ResponseEntity.ok(res);
+    }
+
+    @RequestMapping(value = "/unitConverterTemperature", method = RequestMethod.GET)
+    public ResponseEntity<?> unitConverterTemperature(@RequestBody Map<String, Object> payload) {
+        Set<String> setTemperature = new HashSet<String>(Arrays.asList("kelvin","celsius","fahrenheit"));
+        String unit1 = (String) payload.get("unit1");
+        String unit2 = (String) payload.get("unit2");
+        double res = 0;
+        double input1 = Double.parseDouble((String) payload.get("input1"));
+
+        if (setTemperature.contains(unit1) && setTemperature.contains(unit2)) {
+            double celsius = 0.0;
+            switch (unit1){
+                case "celsius":
+                    celsius = input1;
+                    break;
+
+                case "kelvin":
+                    celsius = input1 - 273.15;
+                    break;
+
+                case "fahrenheit":
+                    celsius = (input1-32.0)*(5.0/9.0);
+                    break;
+
+                default:
+                    return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            }
+
+            switch (unit2){
+                case "celsius":
+                    res = celsius;
+                    break;
+
+                case "kelvin":
+                    res = celsius + 273.15;
+                    break;
+
+                case "fahrenheit":
+                    res = celsius*(9.0/5.0)+32.0;
+                    break;
+
+                default:
+                    return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            }
+        }
+        else
+        {
+             return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+
+        return ResponseEntity.ok(res);
+    }
+
+    @RequestMapping(value = "/unitConverterTime", method = RequestMethod.GET)
+    public ResponseEntity<?> unitConverterTime(@RequestBody Map<String, Object> payload) {
+        Set<String> setTime = new HashSet<String>(Arrays.asList("second","minutes","hour"));
+        String unit1 = (String) payload.get("unit1");
+        String unit2 = (String) payload.get("unit2");
+        double res = 0;
+        double input1 = Double.parseDouble((String) payload.get("input1"));
+
+        if(setTime.contains(unit1) && setTime.contains(unit2))
+        {
+            double second = 0.0;
+            switch (unit1){
+                case "second":
+                    second = input1;
+                    break;
+
+                case "minute":
+                    second = input1 * 60;
+                    break;
+
+                case "hour":
+                    second = input1 * 3600;
+                    break;
+
+                default:
+                    return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            }
+
+
+            switch (unit2){
+                case "second":
+                    res = second;
+                    break;
+
+                case "minute":
+                    res = second / 60;
+                    break;
+
+                case "hour":
+                    res = second / 3600;
+                    break;
+
+                default:
+                    return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            }
+        }
+        else
+        {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+
+        return ResponseEntity.ok(res);
+    }
+    @RequestMapping(value = "/quadraticEquation", method = RequestMethod.GET)
+    public ResponseEntity<?> quadraticEquation(@RequestBody Map<String, Object> payload) {
+        double a = Double.parseDouble((String) payload.get("input1"));
+        double b = Double.parseDouble((String) payload.get("input2"));
+        double c = Double.parseDouble((String) payload.get("input3"));
+
+        double determinant = b * b - 4 * a * c;
+        double root1, root2;
+
+        if(determinant > 0)
+        {
+            root1 = (-b + Math.sqrt(determinant)) / (2 * a);
+            root2 = (-b - Math.sqrt(determinant)) / (2 * a);
+        }
+        else if (determinant == 0) {
+            root1 = root2 = -b / (2 * a);
+        }
+        else {
+            root1 = -b / (2 * a);
+            root2 = Math.sqrt(-determinant) / (2 * a);
+        }
+        Map<String,Double> res = new HashMap<String,Double>();
+        res.put("root1",root1);
+        res.put("root2",root2);
+
+        return ResponseEntity.ok(res);
     }
 }
