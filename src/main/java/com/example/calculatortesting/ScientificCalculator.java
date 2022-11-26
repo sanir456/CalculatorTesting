@@ -75,7 +75,7 @@ public class ScientificCalculator {
                 res = input1 * input2;
                 break;
 
-            case "triabgle":
+            case "triangle":
                 input1 = Double.parseDouble((String) payload.get("input1"));
                 input2 = Double.parseDouble((String) payload.get("input2"));
                 res = 0.5 * input1 * input2;
