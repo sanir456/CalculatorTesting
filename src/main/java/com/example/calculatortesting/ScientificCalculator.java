@@ -397,7 +397,7 @@ public class ScientificCalculator {
 
     @RequestMapping(value = "/unitConverterTime", method = RequestMethod.GET)
     public ResponseEntity<?> unitConverterTime(@RequestBody Map<String, Object> payload) {
-        Set<String> setTime = new HashSet<String>(Arrays.asList("second","minutes","hour"));
+        Set<String> setTime = new HashSet<String>(Arrays.asList("second","minute","hour"));
         String unit1 = (String) payload.get("unit1");
         String unit2 = (String) payload.get("unit2");
         double res = 0;

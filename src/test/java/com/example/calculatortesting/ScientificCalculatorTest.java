@@ -142,19 +142,166 @@ public class ScientificCalculatorTest {
     }
 
     @Test
+    public void timeConverterTruePositive(){
+        //[1,2,4]
+        Map<String,Object> payload0 = new HashMap();
+        payload0.put("unit1",(Object) new String("second"));
+        payload0.put("unit2",(Object) new String("kelvin"));
+        payload0.put("input1",(Object) new String("123"));
+        assertEquals("testpath0",new ResponseEntity(HttpStatus.BAD_REQUEST),calculator.unitConverterTime(payload0));
+
+        //[1,2,3,5,6,9,12,13]
+        Map<String,Object> payload1 = new HashMap();
+        payload1.put("unit1",(Object) new String("second"));
+        payload1.put("unit2",(Object) new String("hour"));
+        payload1.put("input1",(Object) new String("3600"));
+        double output1 = 1.0;
+        assertEquals("testpath1", ResponseEntity.ok(output1),calculator.unitConverterTime(payload1));
+
+        //[1,2,3,5,7,9,10,13]
+        Map<String,Object> payload2 = new HashMap();
+        payload2.put("unit1",(Object) new String("minute"));
+        payload2.put("unit2",(Object) new String("second"));
+        payload2.put("input1",(Object) new String("6"));
+        double output2 = 360.0;
+        assertEquals("testpath1", ResponseEntity.ok(output2),calculator.unitConverterTime(payload2));
+
+        //[1,2,3,5,6,9,11,13]
+        Map<String,Object> payload3 = new HashMap();
+        payload3.put("unit1",(Object) new String("second"));
+        payload3.put("unit2",(Object) new String("minute"));
+        payload3.put("input1",(Object) new String("3600"));
+        double output3 = 60.0;
+        assertEquals("testpath1", ResponseEntity.ok(output3),calculator.unitConverterTime(payload3));
+
+        //[1,2,3,5,6,9,10,13]
+        Map<String,Object> payload4 = new HashMap();
+        payload4.put("unit1",(Object) new String("second"));
+        payload4.put("unit2",(Object) new String("second"));
+        payload4.put("input1",(Object) new String("90"));
+        double output4 = 90.0;
+        assertEquals("testpath1", ResponseEntity.ok(output4),calculator.unitConverterTime(payload4));
+
+        //[1,2,3,5,7,9,11,13]
+        Map<String,Object> payload5 = new HashMap();
+        payload5.put("unit1",(Object) new String("minute"));
+        payload5.put("unit2",(Object) new String("minute"));
+        payload5.put("input1",(Object) new String("6"));
+        double output5 = 6.0;
+        assertEquals("testpath1", ResponseEntity.ok(output5),calculator.unitConverterTime(payload5));
+
+        //[1,2,3,5,8,9,11,13]
+        Map<String,Object> payload6 = new HashMap();
+        payload6.put("unit1",(Object) new String("hour"));
+        payload6.put("unit2",(Object) new String("minute"));
+        payload6.put("input1",(Object) new String("2"));
+        double output6 = 120.0;
+        assertEquals("testpath1", ResponseEntity.ok(output6),calculator.unitConverterTime(payload6));
+
+        //[1,2,3,5,8,9,12,13]
+        Map<String,Object> payload7 = new HashMap();
+        payload7.put("unit1",(Object) new String("hour"));
+        payload7.put("unit2",(Object) new String("hour"));
+        payload7.put("input1",(Object) new String("6"));
+        double output7 = 6.0;
+        assertEquals("testpath1", ResponseEntity.ok(output7),calculator.unitConverterTime(payload7));
+
+        //[1,2,3,5,8,9,10,13]
+        Map<String,Object> payload8 = new HashMap();
+        payload8.put("unit1",(Object) new String("hour"));
+        payload8.put("unit2",(Object) new String("second"));
+        payload8.put("input1",(Object) new String("2"));
+        double output8 = 7200.0;
+        assertEquals("testpath1", ResponseEntity.ok(output8),calculator.unitConverterTime(payload8));
+
+        //[1,2,3,5,7,9,12,13]
+        Map<String,Object> payload9 = new HashMap();
+        payload9.put("unit1",(Object) new String("minute"));
+        payload9.put("unit2",(Object) new String("hour"));
+        payload9.put("input1",(Object) new String("240"));
+        double output9 = 4.0;
+        assertEquals("testpath1", ResponseEntity.ok(output9),calculator.unitConverterTime(payload9));
+    }
+
+    @Test
     public void temperatureConverterTruePositive(){
-        //[1,2,8]
+        //[1,2,4]
         Map<String,Object> payload0 = new HashMap();
         payload0.put("unit1",(Object) new String("second"));
-        payload0.put("unit2",(Object) new String("hour"));
+        payload0.put("unit2",(Object) new String("kelvin"));
         payload0.put("input1",(Object) new String("123"));
         assertEquals("testpath0",new ResponseEntity(HttpStatus.BAD_REQUEST),calculator.unitConverterTemperature(payload0));
 
-        Map<String,Object> payload0 = new HashMap();
-        payload0.put("unit1",(Object) new String("second"));
-        payload0.put("unit2",(Object) new String("hour"));
-        payload0.put("input1",(Object) new String("123"));
-        assertEquals("testpath0",new ResponseEntity(HttpStatus.BAD_REQUEST),calculator.unitConverterTemperature(payload0));
+        //[1,2,3,5,6,9,12,13]
+        Map<String,Object> payload1 = new HashMap();
+        payload1.put("unit1",(Object) new String("celsius"));
+        payload1.put("unit2",(Object) new String("fahrenheit"));
+        payload1.put("input1",(Object) new String("37"));
+        double output1 = 98.60000000000001;
+        assertEquals("testpath1", ResponseEntity.ok(output1),calculator.unitConverterTemperature(payload1));
 
+        //[1,2,3,5,7,9,10,13]
+        Map<String,Object> payload2 = new HashMap();
+        payload2.put("unit1",(Object) new String("kelvin"));
+        payload2.put("unit2",(Object) new String("celsius"));
+        payload2.put("input1",(Object) new String("300"));
+        double output2 = 26.850000000000023;
+        assertEquals("testpath1", ResponseEntity.ok(output2),calculator.unitConverterTemperature(payload2));
+
+        //[1,2,3,5,6,9,11,13]
+        Map<String,Object> payload3 = new HashMap();
+        payload3.put("unit1",(Object) new String("celsius"));
+        payload3.put("unit2",(Object) new String("kelvin"));
+        payload3.put("input1",(Object) new String("36"));
+        double output3 = 309.15;
+        assertEquals("testpath1", ResponseEntity.ok(output3),calculator.unitConverterTemperature(payload3));
+
+        //[1,2,3,5,6,9,10,13]
+        Map<String,Object> payload4 = new HashMap();
+        payload4.put("unit1",(Object) new String("celsius"));
+        payload4.put("unit2",(Object) new String("celsius"));
+        payload4.put("input1",(Object) new String("90"));
+        double output4 = 90.0;
+        assertEquals("testpath1", ResponseEntity.ok(output4),calculator.unitConverterTemperature(payload4));
+
+        //[1,2,3,5,7,9,11,13]
+        Map<String,Object> payload5 = new HashMap();
+        payload5.put("unit1",(Object) new String("kelvin"));
+        payload5.put("unit2",(Object) new String("kelvin"));
+        payload5.put("input1",(Object) new String("6"));
+        double output5 = 6.0;
+        assertEquals("testpath1", ResponseEntity.ok(output5),calculator.unitConverterTemperature(payload5));
+
+        //[1,2,3,5,8,9,11,13]
+        Map<String,Object> payload6 = new HashMap();
+        payload6.put("unit1",(Object) new String("fahrenheit"));
+        payload6.put("unit2",(Object) new String("kelvin"));
+        payload6.put("input1",(Object) new String("95"));
+        double output6 = 308.15;
+        assertEquals("testpath1", ResponseEntity.ok(output6),calculator.unitConverterTemperature(payload6));
+
+        //[1,2,3,5,8,9,12,13]
+        Map<String,Object> payload7 = new HashMap();
+        payload7.put("unit1",(Object) new String("fahrenheit"));
+        payload7.put("unit2",(Object) new String("fahrenheit"));
+        payload7.put("input1",(Object) new String("6"));
+        double output7 = 6.0;
+        assertEquals("testpath1", ResponseEntity.ok(output7),calculator.unitConverterTemperature(payload7));
+
+        //[1,2,3,5,8,9,10,13]
+        Map<String,Object> payload8 = new HashMap();
+        payload8.put("unit1",(Object) new String("fahrenheit"));
+        payload8.put("unit2",(Object) new String("celsius"));
+        payload8.put("input1",(Object) new String("95"));
+        double output8 = 35.0;
+        assertEquals("testpath1", ResponseEntity.ok(output8),calculator.unitConverterTemperature(payload8));
+
+        //[1,2,3,5,7,9,12,13]
+        Map<String,Object> payload9 = new HashMap();
+        payload9.put("unit1",(Object) new String("kelvin"));
+        payload9.put("unit2",(Object) new String("fahrenheit"));
+        payload9.put("input1",(Object) new String("300"));
+        double output9 = 80.33000000000004;
+        assertEquals("testpath1", ResponseEntity.ok(output9),calculator.unitConverterTemperature(payload9));
     }
 }
